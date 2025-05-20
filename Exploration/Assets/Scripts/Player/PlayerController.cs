@@ -110,6 +110,18 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+    
+    public void HighJump(float HighJumpPower)
+    {
+        Debug.Log("실행이 안되나?");
+        
+        if (IsGrounrded())
+        {
+            Debug.Log("땅이 아닌가??");
+            
+            rigidbody.AddForce(Vector2.up * jumpPower * HighJumpPower, ForceMode.Impulse);
+        }
+    }
 
     bool IsGrounrded()
     {   // 플레이어 기준 책상 다리 4개를 만든다고 생각.
