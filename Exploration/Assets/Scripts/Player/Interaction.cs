@@ -14,29 +14,32 @@ public class Interaction : MonoBehaviour
     public GameObject currentInteractGameObject; //현재 조사 대상 아이템
     private IInteractable currentInteractable;
 
-    public TextMeshProUGUI prompText; // UI 분리시켜서 드래그앤드랍 안하고 어떻게 할지 리팩토링 고민 + 꼭 고민
+    private TextMeshProUGUI prompText; // UI 분리시켜서 드래그앤드랍 안하고 어떻게 할지 리팩토링 고민 + 꼭 고민
     private Camera camera;
     
     private void Start()
     {
         camera = Camera.main;
+        
+        prompText = GameObject.Find("UI/Canvas/PrompText").GetComponent<TextMeshProUGUI>(); // 리팩토링1. 찾아오기.
+        // 이거 말고 UIManager에서 불러와도 될 거 같긴 한데.
     }
 
     private void Update()
     {
-        if (Time.time - lastCheckTime > checkRate)
+        if (Time.time - lastCheckTime > checkRate) // = 아이템 검색 주기가 되었다면
         {
-            lastCheckTime = Time.time;  
+            lastCheckTime = Time.time; // 또 사용할 검색기준값 갱신하고 
     
-            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2)); // ray 발사점
-            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2)); // ray를 camera 정 중앙에서 쏘고
+            RaycastHit hit; // hit은 ray와 충돌한 물체
             
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                if (hit.collider.gameObject != currentInteractGameObject)
+                if (hit.collider.gameObject != currentInteractGameObject) // 처음 물체 인식했을 때만
                 {
-                    currentInteractGameObject = hit.collider.gameObject;
-                    currentInteractable = hit.collider.GetComponent<IInteractable>();
+                    currentInteractGameObject = hit.collider.gameObject; //현재오브젝트에 넣고
+                    currentInteractable = hit.collider.GetComponent<IInteractable>(); 
                     SetPromptText();
                 }
             }

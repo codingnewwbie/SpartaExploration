@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ItemType
 {
-    Consumable
+    Consumable,
+    Equip,
 }
 
 public enum ConsumableType

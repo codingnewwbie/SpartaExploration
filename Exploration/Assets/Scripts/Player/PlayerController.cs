@@ -113,12 +113,8 @@ public class PlayerController : MonoBehaviour
     
     public void HighJump(float HighJumpPower)
     {
-        Debug.Log("실행이 안되나?");
-        
         if (IsGrounrded())
         {
-            Debug.Log("땅이 아닌가??");
-            
             rigidbody.AddForce(Vector2.up * jumpPower * HighJumpPower, ForceMode.Impulse);
         }
     }
@@ -166,4 +162,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #endregion
+    
+    
 }

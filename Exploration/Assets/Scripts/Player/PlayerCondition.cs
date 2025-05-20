@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class PlayerCondition : MonoBehaviour
 {
+    private float originalSpeed;
     public UICondition uiCondition;
     
     Condition health 
@@ -51,5 +52,19 @@ public class PlayerCondition : MonoBehaviour
         
         stamina.Subtract(amount);
         return true;
+    }
+
+    public void SpeedUp(float amount)
+    {
+        originalSpeed = CharacterManager.Instance.Player.playerController.moveSpeed;
+        CharacterManager.Instance.Player.playerController.moveSpeed += amount;
+        Invoke("ResetSpeed", 10f);
+    }
+    
+    
+
+    private void ResetSpeed()
+    {
+        CharacterManager.Instance.Player.playerController.moveSpeed = originalSpeed;
     }
 }
