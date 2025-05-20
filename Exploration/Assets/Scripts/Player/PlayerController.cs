@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
     //점프 키 입력 값을 받아옴.
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounrded())
+        if (context.phase == InputActionPhase.Started && IsGrounrded() && CharacterManager.Instance.Player.playerCondition.UseStamina(10))
         {
             rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
