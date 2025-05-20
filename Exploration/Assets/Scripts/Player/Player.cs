@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class Player : MonoBehaviour
     public PlayerController playerController;
     [HideInInspector]
     public PlayerCondition playerCondition;
+    
+    public ItemData itemData;
+    public Action AddItem;
     
     private void Awake()
     {
