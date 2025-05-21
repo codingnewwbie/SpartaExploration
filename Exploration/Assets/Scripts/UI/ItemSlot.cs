@@ -25,6 +25,7 @@ public class ItemSlot : MonoBehaviour
         outline.enabled = equipped;
     }
 
+    // 해당 slot에 icon이랑 개수 보이게 하고
     public void Set()
     {
         icon.gameObject.SetActive(true);
@@ -37,6 +38,7 @@ public class ItemSlot : MonoBehaviour
         }
     }
 
+    // 해당 slot 비우기
     public void Clear()
     {
         item = null;

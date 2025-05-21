@@ -17,6 +17,7 @@ public class MovingObject : MonoBehaviour
     
     private void Start()
     {
+        // 시작 위치와 끝 위치, 그리고 각 위치에 도달 시 바뀌는 목표 위치 설정, 5초마다 목표 위치 바꾸기 설정. 
         prevPosition = transform.position;
         target = new Vector3(prevPosition.x + movingAmount, prevPosition.y, prevPosition.z);
         targetPosition = target;
@@ -25,9 +26,11 @@ public class MovingObject : MonoBehaviour
     
     private void Update()
     {
+        // update 아니면 1프레임 이동하고 멈춤
         transform.position = Vector3.SmoothDamp(transform.position, target, ref velocity, smoothTime);
     }
 
+    // 플레이어가 발판에 올라오면 같이 이동하기 위함.
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -36,6 +39,7 @@ public class MovingObject : MonoBehaviour
         }
     }
     
+    // 발판에서 나가면 발판 움직임과 동기화 해제
     private void OnTriggerExit(Collider other)
     {
         if(other.CompareTag("Player"))
@@ -43,19 +47,14 @@ public class MovingObject : MonoBehaviour
             other.transform.SetParent(null);
         }
     }
-
-    private void StartMovingPanel()
-    {
-        coroutine = StartCoroutine(MovingPanel());
-    }
     
+    // 발판 이동 로직
     private IEnumerator MovingPanel()
     {
-        
         while (true)
         {
             yield return new WaitForSeconds(5f);
-            // 현재 위치와 목표 위치를 비교, 위치 도달 시 목표 위치를 바꿔 계속해서 이동하도록.
+            // 현재 위치와 목표 위치를 비교, (목표 위치 도달 시 목표 위치를 변경 후 목표위치까지 이동).
             if (Vector3.Distance(transform.position, target) < 0.05f)
             {
                 target = (target == prevPosition) ? targetPosition : prevPosition;

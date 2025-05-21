@@ -53,7 +53,6 @@ public class PlayerCondition : MonoBehaviour
     public bool UseStamina(float amount)
     {
         if (stamina.currentValue - amount < 0f) return false;
-        
         stamina.Subtract(amount);
         return true;
     }
@@ -82,7 +81,7 @@ public class PlayerCondition : MonoBehaviour
     //     CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
     // }
     
-    
+    // 코루틴 사용한 아이템 효과 구현
     public void IncreaseSpeed(float amount, float duration)
     {
         // speedItem 사용중이면 이전 효과 멈추고

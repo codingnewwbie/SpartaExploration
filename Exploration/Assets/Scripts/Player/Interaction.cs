@@ -67,6 +67,7 @@ public class Interaction : MonoBehaviour
         prompText.text = currentInteractable.GetInteractPrompt();
     }
 
+    //상호작용 가능하면 해당 물체를 인벤토리로 이동(현재 아이템 습득만 가능함)
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started && currentInteractable != null)

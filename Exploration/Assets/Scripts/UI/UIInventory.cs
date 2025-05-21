@@ -48,7 +48,7 @@ public class UIInventory : MonoBehaviour
             slots[i].index = i;
             slots[i].inventory = this;
         }
-
+        
         ClearSelectedItemWindow();
     }
 
@@ -87,12 +87,14 @@ public class UIInventory : MonoBehaviour
     {
         ItemData data = CharacterManager.Instance.Player.itemData;
         
-        //아이템 중복가능 여부 확인(canStack)해서 
+        //아이템 중복가능 여부 확인(canStack)해서 중첩 가능한 아이템이면
         if (data.canStack)
         {
+            //해당 아이템이 인벤토리에 존재하고, 개수가 최대개수보다 작을 때
             ItemSlot slot = GetItemStack(data);
             if (slot != null)
             {
+                //개수 추가 & UI 업데이트 & itemData null로
                 slot.quantity++;
                 UIUpdate();
                 CharacterManager.Instance.Player.itemData = null;
@@ -103,7 +105,7 @@ public class UIInventory : MonoBehaviour
         //비어 있는 슬롯 가져온다.
         ItemSlot emptySlot = GetEmptySlot();
 
-        //있다면
+        // 빈 슬롯이 있다면 중첩 가능하든 아니든 일단 개수 1로 설정.
         if (emptySlot != null)
         {
             emptySlot.item = data;
@@ -116,7 +118,6 @@ public class UIInventory : MonoBehaviour
         //없다면
         ThrowItem(data);
         CharacterManager.Instance.Player.itemData = null;
-
     }
 
     void UIUpdate()
@@ -134,10 +135,12 @@ public class UIInventory : MonoBehaviour
         }
     }
 
+    //아이템 인벤토리 존재 여부 및 최대 개수 미만인지 조회
     ItemSlot GetItemStack(ItemData data)
     {
         for (int i = 0; i < slots.Length; i++)
         {
+            //동일 아이템이고, 아이템의 개수가 설정한 max개수보다 작을 때.
             if (slots[i].item == data && slots[i].quantity < data.maxStackAmount)
             {
                 return slots[i];
@@ -158,11 +161,13 @@ public class UIInventory : MonoBehaviour
         return null;
     }
 
+    // 아이템 인벤토리 -> 맵에 생성.
     void ThrowItem(ItemData data)
     {
         Instantiate(data.dropPrefab, dropPosition.position, Quaternion.Euler(Vector3.one * Random.value * 360f));
     }
 
+    // 
     public void SelectItem(int index)
     {
         if (slots[index].item == null) return;
@@ -216,6 +221,7 @@ public class UIInventory : MonoBehaviour
         RemoveSelectedItem();
     }
 
+    // 인벤토리(slots)에서 아이템 제거. 무조건 -1개씩 드랍.
     void RemoveSelectedItem()
     {
         slots[selectedItemIndex].quantity--;
