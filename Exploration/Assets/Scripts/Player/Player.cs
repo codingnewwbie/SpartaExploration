@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public PlayerController playerController;
     [HideInInspector]
     public PlayerCondition playerCondition;
-    
+    public Transform dropPosition;
     public ItemData itemData;
     public Action AddItem;
     

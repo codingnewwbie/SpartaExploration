@@ -7,7 +7,11 @@ using UnityEngine;
 public class PlayerCondition : MonoBehaviour
 {
     private float originalSpeed;
+    private float originalJump;
     public UICondition uiCondition;
+    
+    private Coroutine speedCoroutine;
+    private Coroutine jumpCoroutine;
     
     Condition health 
     {
@@ -54,17 +58,74 @@ public class PlayerCondition : MonoBehaviour
         return true;
     }
 
-    public void SpeedUp(float amount)
+    // public void SpeedUp(float amount)
+    // {
+    //     originalSpeed = CharacterManager.Instance.Player.playerController.moveSpeed;
+    //     CharacterManager.Instance.Player.playerController.moveSpeed += amount;
+    //     Invoke("ResetSpeed", 10f);
+    // }
+    //
+    // public void JumpUp(float amount)
+    // {
+    //     originalJump = CharacterManager.Instance.Player.playerController.jumpPower;
+    //     CharacterManager.Instance.Player.playerController.jumpPower += amount;
+    //     Invoke("ResetJump", 10f);
+    // }
+    //
+    // private void ResetSpeed()
+    // {
+    //     CharacterManager.Instance.Player.playerController.moveSpeed = originalSpeed;
+    // }
+    //
+    // private void ResetJump()
+    // {
+    //     CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
+    // }
+    
+    
+    public void IncreaseSpeed(float amount, float duration)
+    {
+        // speedItem 사용중이면 이전 효과 멈추고
+        if (speedCoroutine != null)
+        {
+            CharacterManager.Instance.Player.playerController.moveSpeed = originalSpeed;
+            StopCoroutine(speedCoroutine);
+        }
+        
+        // 코루틴을 실행시키고 return 값을 변수에 넣어주기.
+        speedCoroutine = StartCoroutine(SpeedUpCoroutine(amount, duration));
+    }
+
+    private IEnumerator SpeedUpCoroutine(float amount, float duration)
     {
         originalSpeed = CharacterManager.Instance.Player.playerController.moveSpeed;
         CharacterManager.Instance.Player.playerController.moveSpeed += amount;
-        Invoke("ResetSpeed", 10f);
+
+        yield return new WaitForSeconds(duration);
+
+        CharacterManager.Instance.Player.playerController.moveSpeed = originalSpeed;
+        speedCoroutine = null;
     }
     
-    
-
-    private void ResetSpeed()
+    public void IncreaseJump(float amount, float duration)
     {
-        CharacterManager.Instance.Player.playerController.moveSpeed = originalSpeed;
+        if (jumpCoroutine != null)
+        {
+            CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
+            StopCoroutine(jumpCoroutine);
+        }
+        
+        jumpCoroutine = StartCoroutine(JumpUpCoroutine(amount, duration));
+    }
+
+    private IEnumerator JumpUpCoroutine(float amount, float duration)
+    {
+        originalJump = CharacterManager.Instance.Player.playerController.jumpPower;
+        CharacterManager.Instance.Player.playerController.jumpPower += amount;
+
+        yield return new WaitForSeconds(duration);
+
+        CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
+        speedCoroutine = null;
     }
 }

@@ -3,14 +3,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
-{   //움직일 때 필요한 값
+{
+    //움직일 때 필요한 값
     [Header("Move")] public float moveSpeed;
     private Vector2 currentMovementInput;
-    
+
     //점프에 필요한 값
     [Header("Jump")] public float jumpPower;
     public LayerMask groundLayerMask;
-    
+
     //카메라 조절 시 필요한 값
     [Header("Look")] public Transform cameraContainer;
     public float minXLook;
@@ -18,20 +19,28 @@ public class PlayerController : MonoBehaviour
     public float cameraCurrentXRotation;
     public float lookSensitivity;
     public Vector2 mouseDelta;
-    
+
     private Rigidbody rigidbody;
 
     public bool canLook = true;
     public Action inventory;
+
+    public bool is1stView
+    {
+        get; private set;
+    }
     
+
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>(); //rigidbody 초기화
+        is1stView = true;
     }
     
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // 시작 시 마우스 위치 중앙 고정 및 보이지 않게 해서 1인칭 시점 구현.
+
     }
     
     void LateUpdate()
@@ -79,14 +88,17 @@ public class PlayerController : MonoBehaviour
     // 실제 카메라 이동 조절
     void CameraLook()
     {
+        minXLook = is1stView ? -70 : -30;    
+        
         // 마우스 움직여보면 좌우 움직임 넣을때(마우스 좌우이동) y축 기준으로 회전, 상하 움직임이면 x축 기준 회전함.
         cameraCurrentXRotation -= mouseDelta.y * lookSensitivity;
-        cameraCurrentXRotation = Mathf.Clamp(cameraCurrentXRotation, minXLook, maxXLook);
+        cameraCurrentXRotation = Mathf.Clamp(cameraCurrentXRotation , minXLook, maxXLook);
         cameraContainer.localEulerAngles = new Vector3(cameraCurrentXRotation, 0, 0);
         /* 마우스 실제 움직임과 카메라 움직임을 맞추기 위해 - 붙임.
            여기서 음수로 전환하던가, 아니면 처음에 XRotation 할 때 -=하던가 둘 중 하나.
            상하 움직임 시 캐릭터는 그대로, 카메라만 움직이고  
         좌우 움직임 시 카메라 멈추고 캐릭터 움직이도록 카메라와 Player의 Angles 조절 */
+        // transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
         transform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
     }
     
@@ -111,11 +123,11 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    public void HighJump(float HighJumpPower)
+    public void HighJump(float highJumpPower)
     {
         if (IsGrounrded())
         {
-            rigidbody.AddForce(Vector2.up * jumpPower * HighJumpPower, ForceMode.Impulse);
+            rigidbody.AddForce(Vector2.up * jumpPower * highJumpPower, ForceMode.Impulse);
         }
     }
 
@@ -161,6 +173,19 @@ public class PlayerController : MonoBehaviour
         canLook = !toggle;
     }
 
+    #endregion
+    
+    
+    #region CameraConversion
+    // 인벤토리 열고 닫음에 따라 커서값 조절
+    public void OnCameraConversion(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            is1stView = !is1stView;
+        }
+    }
+    
     #endregion
     
     

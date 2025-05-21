@@ -16,10 +16,12 @@ public class Interaction : MonoBehaviour
 
     private TextMeshProUGUI prompText; // UI 분리시켜서 드래그앤드랍 안하고 어떻게 할지 리팩토링 고민 + 꼭 고민
     private Camera camera;
+    private bool prevView;    
     
     private void Start()
     {
         camera = Camera.main;
+        prevView = CharacterManager.Instance.Player.playerController.is1stView;
         
         prompText = GameObject.Find("UI/Canvas/PrompText").GetComponent<TextMeshProUGUI>(); // 리팩토링1. 찾아오기.
         // 이거 말고 UIManager에서 불러와도 될 거 같긴 한데.
@@ -49,6 +51,13 @@ public class Interaction : MonoBehaviour
                 currentInteractable = null;
                 prompText.gameObject.SetActive(false);
             }
+        }
+
+        if (prevView != CharacterManager.Instance.Player.playerController.is1stView)
+        {
+            camera.transform.localPosition = prevView ? new Vector3(0, 0, 0) : new Vector3(0, 5f, -5f);
+            maxCheckDistance = prevView ? 3 : 10;
+            prevView = CharacterManager.Instance.Player.playerController.is1stView;
         }
     }
 

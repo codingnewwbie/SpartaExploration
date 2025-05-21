@@ -33,7 +33,7 @@ public class UIInventory : MonoBehaviour
     {
         controller = CharacterManager.Instance.Player.playerController;
         condition = CharacterManager.Instance.Player.playerCondition;
-        // dropPosition = CharacterManager.Instance.Player.dropPosition;
+        dropPosition = CharacterManager.Instance.Player.dropPosition;
 
         controller.inventory += Toggle;
         
@@ -199,12 +199,11 @@ public class UIInventory : MonoBehaviour
                         condition.Heal(selectedItem.Consumables[i].value);
                         break;
                     case ConsumableType.Speed:
-                        condition.SpeedUp(selectedItem.Consumables[i].value);
+                        condition.IncreaseSpeed(selectedItem.Consumables[i].value, 10);
                         break;
-                        
-                    // case ConsumableType.Hunger:
-                    //     condition.Eat(selectedItem.Consumables[i].value);
-                    //     break;
+                    case ConsumableType.Jump:
+                        condition.IncreaseJump(selectedItem.Consumables[i].value, 10);
+                        break;
                 }
             }
             RemoveSelectedItem();
