@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
     {
         get; private set;
     }
+
+    public bool isLadder = false;
     
 
     private void Awake()
@@ -60,11 +62,21 @@ public class PlayerController : MonoBehaviour
     // 실제 Player가 움직이게 함
     void Move()
     {
-        // currentMovementInput의 x,y값은 2D 기준 방향. dir.y는 3d 기준 방향.  
-        Vector3 dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x;
-        dir *= moveSpeed;
-        dir.y = rigidbody.velocity.y; // 점프를 했을 때만 위/아래로 움직이도록 하기 위해 기존 y값 유지.
-
+        Vector3 dir;
+        if (!isLadder)
+        {
+            rigidbody.useGravity = true;
+            // currentMovementInput의 x,y값은 2D 기준 방향. dir.y는 3d 기준 방향.  
+            dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x;
+            dir *= moveSpeed;
+            dir.y = rigidbody.velocity.y; // 점프를 했을 때만 위/아래로 움직이도록 하기 위해 기존 y값 유지.
+        }
+        else
+        {
+            rigidbody.useGravity = false;
+            float climbSpeed = 3f;
+            dir = new Vector3(0, currentMovementInput.y, 0) * climbSpeed;
+        }
         rigidbody.velocity = dir;
 
     }
