@@ -22,7 +22,8 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     private float ImmuneTime = 1.5f;
     private bool isImmuneDamage = false;
-    private bool isItemImmuneDamage = false;
+    // private bool isItemImmuneDamage = false;
+    private Coroutine immuneCoroutine = null;
     
     Condition health 
     {
@@ -161,29 +162,41 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         doubleJumpCoroutine = null;
     }
     
-        
+    
     public void TakeDamage(float damage)
     {
         if (isImmuneDamage) return;
 
-        ImmuneTime = isItemImmuneDamage ? 10f : 1.5f;
+        Debug.Log("피해 입는 시간: " + Time.time);
         health.Subtract(damage);
         onTakeDamage?.Invoke();
-        StartCoroutine(ImmuneDamage(ImmuneTime));
         
+        isImmuneDamage = true;
+        if (immuneCoroutine != null) StopCoroutine(immuneCoroutine);
+        
+        immuneCoroutine = StartCoroutine(ImmuneDamage(ImmuneTime));
     }
 
     private IEnumerator ImmuneDamage(float duration)
     {
-        isImmuneDamage = true;
         yield return new WaitForSeconds(duration);
+        Debug.Log("무적 종료 시간: " + Time.time);
+        
         isImmuneDamage = false;
-        if(isItemImmuneDamage) isItemImmuneDamage = false;
+        immuneCoroutine = null;
     }
 
     public void InvincibleTime(float duration)
     {
-        isItemImmuneDamage = true;
-        StartCoroutine(ImmuneDamage(duration));
+        Debug.Log("무적 아이템 시작시간: " + Time.time);
+        
+        if (immuneCoroutine != null)
+        {
+            StopCoroutine(immuneCoroutine);
+            immuneCoroutine = null;
+        }
+        
+        isImmuneDamage = true;
+        immuneCoroutine = StartCoroutine(ImmuneDamage(duration));
     }
 }
