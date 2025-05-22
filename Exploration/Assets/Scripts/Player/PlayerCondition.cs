@@ -139,7 +139,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
         jumpCoroutine = null;
     }
-
     
     public void DoubleJump(float duration)
     {
@@ -167,7 +166,6 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     {
         if (isImmuneDamage) return;
 
-        Debug.Log("피해 입는 시간: " + Time.time);
         health.Subtract(damage);
         onTakeDamage?.Invoke();
         
@@ -180,16 +178,12 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     private IEnumerator ImmuneDamage(float duration)
     {
         yield return new WaitForSeconds(duration);
-        Debug.Log("무적 종료 시간: " + Time.time);
-        
         isImmuneDamage = false;
         immuneCoroutine = null;
     }
 
     public void InvincibleTime(float duration)
     {
-        Debug.Log("무적 아이템 시작시간: " + Time.time);
-        
         if (immuneCoroutine != null)
         {
             StopCoroutine(immuneCoroutine);
