@@ -10,6 +10,7 @@ public class Interaction : MonoBehaviour
     private float lastCheckTime;
     public float maxCheckDistance; //최대 아이템조사 거리
     public LayerMask layerMask; //어떤 레이어가 달려있는 게임오브젝트를 추출하느냐.
+    public LayerMask ladderLayerMask; //어떤 레이어가 달려있는 게임오브젝트를 추출하느냐.
 
     public GameObject currentInteractGameObject; //현재 조사 대상 아이템
     private IInteractable currentInteractable;
@@ -38,7 +39,7 @@ public class Interaction : MonoBehaviour
             
             if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
             {
-                if (hit.collider.gameObject != currentInteractGameObject) // 처음 물체 인식했을 때만
+                if (hit.collider.gameObject != currentInteractGameObject) // ray가 새로운 물체 봤을 때만
                 {
                     currentInteractGameObject = hit.collider.gameObject; //현재오브젝트에 넣고
                     currentInteractable = hit.collider.GetComponent<IInteractable>(); 
@@ -50,6 +51,13 @@ public class Interaction : MonoBehaviour
                 currentInteractGameObject = null;
                 currentInteractable = null;
                 prompText.gameObject.SetActive(false);
+            }
+            
+            bool hitLadder = Physics.Raycast(ray, out hit, 1f, ladderLayerMask);
+            
+            if (CharacterManager.Instance.Player.playerController.isLadder != hitLadder)
+            {
+                CharacterManager.Instance.Player.playerController.isLadder = hitLadder;
             }
         }
 
