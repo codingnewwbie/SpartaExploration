@@ -75,7 +75,7 @@ public class PlayerController : MonoBehaviour
         {
             rigidbody.useGravity = false;
             float climbSpeed = 3f;
-            dir = new Vector3(0, currentMovementInput.y, 0) * climbSpeed;
+            dir = new Vector3(-currentMovementInput.x * climbSpeed, currentMovementInput.y * climbSpeed, 0);
         }
         rigidbody.velocity = dir;
 
