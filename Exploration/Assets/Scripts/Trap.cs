@@ -20,7 +20,7 @@ public class Trap : MonoBehaviour
 
     private bool IsApproached()
     {
-        Ray ray = new Ray(transform.position, Vector3.left);
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, Vector3.left);
         if (Physics.Raycast(ray, 3.75f, pLayerMask))
         {
             return true;
