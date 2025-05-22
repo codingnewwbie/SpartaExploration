@@ -4,7 +4,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class PlayerCondition : MonoBehaviour
+public interface IDamageable
+{
+    void TakeDamage(float damage);
+} 
+public class PlayerCondition : MonoBehaviour, IDamageable
 {
     private float originalSpeed;
     private float originalJump;
@@ -13,6 +17,11 @@ public class PlayerCondition : MonoBehaviour
     private Coroutine speedCoroutine;
     private Coroutine jumpCoroutine;
     private Coroutine doubleJumpCoroutine;
+    
+    public event Action onTakeDamage;
+
+    private float ImmuneTime = 1.5f;
+    private bool isImmuneDamage = false;
     
     Condition health 
     {
@@ -149,5 +158,23 @@ public class PlayerCondition : MonoBehaviour
 
         CharacterManager.Instance.Player.playerController.isDoubleJump = false;
         doubleJumpCoroutine = null;
+    }
+    
+        
+    public void TakeDamage(float damage)
+    {
+        if (isImmuneDamage) return;
+        
+        health.Subtract(damage);
+        onTakeDamage?.Invoke();
+        StartCoroutine(ImmuneDamage());
+        
+    }
+
+    private IEnumerator ImmuneDamage()
+    {
+        isImmuneDamage = true;
+        yield return new WaitForSeconds(ImmuneTime);
+        isImmuneDamage = false;
     }
 }
