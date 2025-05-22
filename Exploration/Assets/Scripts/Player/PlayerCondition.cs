@@ -22,6 +22,7 @@ public class PlayerCondition : MonoBehaviour, IDamageable
 
     private float ImmuneTime = 1.5f;
     private bool isImmuneDamage = false;
+    private bool isItemImmuneDamage = false;
     
     Condition health 
     {
@@ -164,17 +165,25 @@ public class PlayerCondition : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         if (isImmuneDamage) return;
-        
+
+        ImmuneTime = isItemImmuneDamage ? 10f : 1.5f;
         health.Subtract(damage);
         onTakeDamage?.Invoke();
-        StartCoroutine(ImmuneDamage());
+        StartCoroutine(ImmuneDamage(ImmuneTime));
         
     }
 
-    private IEnumerator ImmuneDamage()
+    private IEnumerator ImmuneDamage(float duration)
     {
         isImmuneDamage = true;
-        yield return new WaitForSeconds(ImmuneTime);
+        yield return new WaitForSeconds(duration);
         isImmuneDamage = false;
+        if(isItemImmuneDamage) isItemImmuneDamage = false;
+    }
+
+    public void InvincibleTime(float duration)
+    {
+        isItemImmuneDamage = true;
+        StartCoroutine(ImmuneDamage(duration));
     }
 }

@@ -212,6 +212,9 @@ public class UIInventory : MonoBehaviour
                     case ConsumableType.SJump:
                         condition.DoubleJump(10);
                         break;
+                    case ConsumableType.SHealth:
+                        condition.InvincibleTime(10);
+                        break;
                 }
             }
             RemoveSelectedItem();
