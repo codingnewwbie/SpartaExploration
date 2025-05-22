@@ -209,6 +209,9 @@ public class UIInventory : MonoBehaviour
                     case ConsumableType.Jump:
                         condition.IncreaseJump(selectedItem.Consumables[i].value, 10);
                         break;
+                    case ConsumableType.SJump:
+                        condition.DoubleJump(10);
+                        break;
                 }
             }
             RemoveSelectedItem();

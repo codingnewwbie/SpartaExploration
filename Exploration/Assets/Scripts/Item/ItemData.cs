@@ -10,9 +10,10 @@ public enum ItemType
 public enum ConsumableType
 {
     Health,
-    Stamina,
     Speed,
     Jump,
+    SJump,
+    SHealth,
 }
 [System.Serializable]
 public class ItemDataConsumable

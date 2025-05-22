@@ -31,6 +31,9 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool isLadder = false;
+
+    public bool isDoubleJump = false;
+    private bool oneDoubleJump = false;
     
 
     private void Awake()
@@ -131,6 +134,15 @@ public class PlayerController : MonoBehaviour
             if(CharacterManager.Instance.Player.playerCondition.UseStamina(10))
             {
                 rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+                oneDoubleJump = false;
+            }
+        }
+        else if (context.phase == InputActionPhase.Started && isDoubleJump && !oneDoubleJump)
+        {
+            if (CharacterManager.Instance.Player.playerCondition.UseStamina(10))
+            {
+                rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+                oneDoubleJump = true;
             }
         }
     }
@@ -143,7 +155,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    bool IsGrounrded()
+    public bool IsGrounrded()
     {   // 플레이어 기준 책상 다리 4개를 만든다고 생각.
         Ray[] rays = new Ray[4]
         {
@@ -199,6 +211,4 @@ public class PlayerController : MonoBehaviour
     }
     
     #endregion
-    
-    
 }

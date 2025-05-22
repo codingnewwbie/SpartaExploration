@@ -12,6 +12,7 @@ public class PlayerCondition : MonoBehaviour
     
     private Coroutine speedCoroutine;
     private Coroutine jumpCoroutine;
+    private Coroutine doubleJumpCoroutine;
     
     Condition health 
     {
@@ -125,6 +126,28 @@ public class PlayerCondition : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         CharacterManager.Instance.Player.playerController.jumpPower = originalJump;
-        speedCoroutine = null;
+        jumpCoroutine = null;
+    }
+
+    
+    public void DoubleJump(float duration)
+    {
+        if (doubleJumpCoroutine != null)
+        {
+            CharacterManager.Instance.Player.playerController.isDoubleJump = false;
+            StopCoroutine(doubleJumpCoroutine);
+        }
+        
+        doubleJumpCoroutine = StartCoroutine(DoubleJumpCoroutine(duration));
+    }
+
+    private IEnumerator DoubleJumpCoroutine(float duration)
+    {
+        CharacterManager.Instance.Player.playerController.isDoubleJump = true;
+        
+        yield return new WaitForSeconds(duration);
+
+        CharacterManager.Instance.Player.playerController.isDoubleJump = false;
+        doubleJumpCoroutine = null;
     }
 }

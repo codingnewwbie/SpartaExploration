@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643bde8fa2288994083501c048232155, type: 3}
+  m_Name: SpecialHealth
+  m_EditorClassIdentifier: 
+  displayName: "\uBB34\uC801\uACFC\uC77C"
+  description: "10\uCD08\uB3D9\uC548 \uD53C\uD574\uB97C \uC785\uC9C0 \uC54A\uC2B5\uB2C8\uB2E4."
+  type: 0
+  icon: {fileID: 21300000, guid: e12e1a0e4a7453c42932e826264d0473, type: 3}
+  dropPrefab: {fileID: 1271865576400040978, guid: 6887084a4d02b064fbd55a21a809634f, type: 3}
+  canStack: 0
+  maxStackAmount: 0
+  Consumables:
+  - ConsumableType: 0
+    value: 0
+  equipPrefab: {fileID: 0}
