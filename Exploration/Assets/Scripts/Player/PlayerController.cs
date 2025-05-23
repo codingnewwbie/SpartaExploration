@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     //움직일 때 필요한 값
     [Header("Move")] public float moveSpeed;
     private Vector2 currentMovementInput;
+    private bool isRun = false;
 
     //점프에 필요한 값
     [Header("Jump")] public float jumpPower;
@@ -71,7 +72,11 @@ public class PlayerController : MonoBehaviour
             rigidbody.useGravity = true;
             // currentMovementInput의 x,y값은 2D 기준 방향. dir.y는 3d 기준 방향.  
             dir = transform.forward * currentMovementInput.y + transform.right * currentMovementInput.x;
-            dir *= moveSpeed;
+
+            dir *= (isRun ? (moveSpeed + 3) : moveSpeed);
+
+            if (isRun) CharacterManager.Instance.Player.playerCondition.UseStamina(0.5f);
+            
             dir.y = rigidbody.velocity.y; // 점프를 했을 때만 위/아래로 움직이도록 하기 위해 기존 y값 유지.
         }
         else
@@ -211,4 +216,13 @@ public class PlayerController : MonoBehaviour
     }
     
     #endregion
+
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            isRun = !isRun;
+        }
+    }
 }

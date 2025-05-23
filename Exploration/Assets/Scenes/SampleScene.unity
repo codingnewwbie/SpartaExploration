@@ -2412,6 +2412,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2ff90ce8-c1f4-4f28-8559-4211bc32db36
     m_ActionName: Player/CameraConversion[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 681199747}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5bf0f961-6551-473c-803c-077dbb4b71bc
+    m_ActionName: Player/Run[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -5200,7 +5216,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1574685652}
   - component: {fileID: 1574685654}
-  - component: {fileID: 1574685653}
   m_Layer: 8
   m_Name: EquipCamera
   m_TagString: Untagged
@@ -5223,14 +5238,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 978421061}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!81 &1574685653
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1574685651}
-  m_Enabled: 1
 --- !u!20 &1574685654
 Camera:
   m_ObjectHideFlags: 0
