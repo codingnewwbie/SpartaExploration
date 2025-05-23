@@ -193,4 +193,16 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         isImmuneDamage = true;
         immuneCoroutine = StartCoroutine(ImmuneDamage(duration));
     }
+    
+    public void EquipJumpItem(float statPoint)
+    {
+        CharacterManager.Instance.Player.playerController.jumpPower += statPoint;
+    }
+    
+    
+    public void EquipSpeedItem(float statPoint)
+    {
+        CharacterManager.Instance.Player.playerController.moveSpeed += statPoint;
+    }
+    
 }

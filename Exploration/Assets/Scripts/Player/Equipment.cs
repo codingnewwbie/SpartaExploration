@@ -23,6 +23,16 @@ public class Equipment : MonoBehaviour
         //기존 장비 해제
         UnEquip();
         currentEquip = Instantiate(data.equipPrefab, equipParent).GetComponent<EquipTool>();
+
+        switch (currentEquip.equipType) 
+        {
+            case EquipType.Jump:
+                playerCondition.EquipJumpItem(currentEquip.statPoint);
+                break;
+            case EquipType.Speed:
+                playerCondition.EquipSpeedItem(currentEquip.statPoint);
+                break;
+        }
     }
 
     public void UnEquip()
