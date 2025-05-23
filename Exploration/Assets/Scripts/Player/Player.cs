@@ -12,11 +12,14 @@ public class Player : MonoBehaviour
     public Transform dropPosition;
     public ItemData itemData;
     public Action AddItem;
+
+    public Equipment equip;
     
     private void Awake()
     {
         CharacterManager.Instance.Player = this; // 외부에서 플레이어 접근 시 CharacterManager를 통해 접근 가능하도록
         playerController = GetComponent<PlayerController>();
         playerCondition = GetComponent<PlayerCondition>();
+        equip = GetComponent<Equipment>();
     }
 }

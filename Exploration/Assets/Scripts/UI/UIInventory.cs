@@ -187,8 +187,8 @@ public class UIInventory : MonoBehaviour
             selectedItemStatValue.text += selectedItem.Consumables[i].value + "\n";
         }
         useButton.SetActive(selectedItem.type == ItemType.Consumable);
-        // equipButton.SetActive(selectedItem.type == ItemType.Equipable && !slots[index].equipped);
-        // unequipButton.SetActive(selectedItem.type == ItemType.Equipable && slots[index].equipped);
+        equipButton.SetActive(selectedItem.type == ItemType.Equip && !slots[index].equipped);
+        unequipButton.SetActive(selectedItem.type == ItemType.Equip && slots[index].equipped);
         dropButton.SetActive(true);
     }
 
@@ -246,14 +246,14 @@ public class UIInventory : MonoBehaviour
     {
         if (slots[currentEquipIndex].equipped)
         {
-            //해제
+            // 해제
             UnEquip(currentEquipIndex);
         }
         
         slots[selectedItemIndex].equipped = true;
         currentEquipIndex = selectedItemIndex;
         
-        // CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
+        CharacterManager.Instance.Player.equip.EquipNew(selectedItem);
         UIUpdate();
         
         SelectItem(selectedItemIndex);
@@ -263,7 +263,7 @@ public class UIInventory : MonoBehaviour
     void UnEquip(int index)
     {
         slots[index].equipped = false;
-        // CharacterManager.Instance.Player.equip.UnEquip();
+        CharacterManager.Instance.Player.equip.UnEquip();
         UIUpdate();
 
         if (selectedItemIndex == index)
